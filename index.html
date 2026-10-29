@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Educational Helper</title>
+    
+    <!-- Google Fonts Imports -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Grid+Single:slnt,wght@-8,100..900&family=Redaction+50:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* Default Theme (Original Blue/Green) */
+            --bg-gradient-start: #07579C;
+            --bg-gradient-end: #23C809;
+            --card-bg: rgba(0, 0, 0, 0.3);
+            --btn-bg: #007BFF;
+            --btn-hover: #0056b3;
+            --text-color: #ffffff;
+            --accent-glow: rgba(0, 123, 255, 0.4);
+            --border-color: rgba(255, 255, 255, 0.2);
+            --input-bg: rgba(0, 0, 0, 0.25);
+            --main-font: "Bitcount Grid Single", system-ui, sans-serif;
+        }
+
+        /* Dark Theme */
+        body[data-theme="dark"] {
+            --bg-gradient-start: #0f172a;
+            --bg-gradient-end: #1e293b;
+            --card-bg: rgba(15, 23, 42, 0.75);
+            --btn-bg: #334155;
+            --btn-hover: #475569;
+            --text-color: #f8fafc;
+            --accent-glow: rgba(255, 255, 255, 0.2);
+            --border-color: rgba(255, 255, 255, 0.15);
+            --input-bg: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Light Theme */
+        body[data-theme="light"] {
+            --bg-gradient-start: #e2e8f0;
+            --bg-gradient-end: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --btn-bg: #2563eb;
+            --btn-hover: #1d4ed8;
+            --text-color: #0f172a;
+            --accent-glow: rgba(37, 99, 235, 0.3);
+            --border-color: rgba(0, 0, 0, 0.15);
+            --input-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Midnight Purple Theme */
+        body[data-theme="purple"] {
+            --bg-gradient-start: #2e1065;
+            --bg-gradient-end: #581c87;
+            --card-bg: rgba(0, 0, 0, 0.4);
+            --btn-bg: #7e22ce;
+            --btn-hover: #6b21a8;
+            --text-color: #f3e8ff;
+            --accent-glow: rgba(168, 85, 247, 0.4);
+            --border-color: rgba(233, 213, 255, 0.2);
+            --input-bg: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Sunset Neon Theme */
+        body[data-theme="sunset"] {
+            --bg-gradient-start: #831843;
+            --bg-gradient-end: #c2410c;
+            --card-bg: rgba(0, 0, 0, 0.35);
+            --btn-bg: #ea580c;
+            --btn-hover: #c2410c;
+            --text-color: #fff7ed;
+            --accent-glow: rgba(249, 115, 22, 0.4);
+            --border-color: rgba(254, 215, 170, 0.25);
+            --input-bg: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Emerald Forest Theme */
+        body[data-theme="forest"] {
+            --bg-gradient-start: #064e3b;
+            --bg-gradient-end: #022c22;
+            --card-bg: rgba(6, 78, 59, 0.5);
+            --btn-bg: #059669;
+            --btn-hover: #047857;
+            --text-color: #ecfdf5;
+            --accent-glow: rgba(16, 185, 129, 0.4);
+            --border-color: rgba(167, 243, 208, 0.2);
+            --input-bg: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Cyberpunk Matrix Theme */
+        body[data-theme="cyberpunk"] {
+            --bg-gradient-start: #000000;
+            --bg-gradient-end: #052e16;
+            --card-bg: rgba(0, 20, 0, 0.85);
+            --btn-bg: #15803d;
+            --btn-hover: #166534;
+            --text-color: #22c55e;
+            --accent-glow: rgba(34, 197, 94, 0.6);
+            --border-color: rgba(34, 197, 94, 0.4);
+            --input-bg: rgba(0, 30, 0, 0.6);
+        }
+
+        /* Ocean Wave Theme */
+        body[data-theme="ocean"] {
+            --bg-gradient-start: #0c4a6e;
+            --bg-gradient-end: #082f49;
+            --card-bg: rgba(12, 74, 110, 0.5);
+            --btn-bg: #0284c7;
+            --btn-hover: #0369a1;
+            --text-color: #f0f9ff;
+            --accent-glow: rgba(56, 189, 248, 0.4);
+            --border-color: rgba(186, 230, 253, 0.25);
+            --input-bg: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Font Helper Classes */
+        .bitcount-grid-single-font {
+            font-family: "Bitcount Grid Single", system-ui, sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+            font-variation-settings:
+                "slnt" -8,
+                "CRSV" 0.5,
+                "ELSH" 0,
+                "ELXP" 0;
+        }
+
+        .redaction-50-regular {
+            font-family: "Redaction 50", serif;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        .redaction-50-bold {
+            font-family: "Redaction 50", serif;
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        .redaction-50-regular-italic {
+            font-family: "Redaction 50", serif;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--main-font);
+            font-optical-sizing: auto;
+            font-style: normal;
+            font-variation-settings:
+                "slnt" -8,
+                "CRSV" 0.5,
+                "ELSH" 0,
+                "ELXP" 0;
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            z-index: -1;
+            transition: background 0.4s ease;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        header {
+            position: relative;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Theme Selector Controls */
+        .theme-selector-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .theme-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .theme-select {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--text-color);
+            font-family: var(--main-font);
+            font-size: 0.9rem;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .theme-select option {
+            background-color: #1e293b;
+            color: #ffffff;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Split Screen 2-Column Dashboard Grid */
+        .dashboard-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 800px) {
+            .dashboard-layout {
+                grid-template-columns: 1fr;
+            }
+            .theme-selector-wrapper {
+                justify-content: center;
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        /* Enhanced Badge Styles for Superior Readability */
+        .badge {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            padding: 0.35rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+            color: var(--text-color);
+            white-space: nowrap;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 1.2rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--text-color);
+            font-family: var(--main-font);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-box::placeholder {
+            color: var(--text-color);
+            opacity: 0.6;
+        }
+
+        .search-box:focus {
+            border-color: var(--text-color);
+            box-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+        }
+
+        .my-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 16px;
+            background-color: var(--btn-bg);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-family: var(--main-font);
+            font-weight: 500;
+            transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .my-button:hover {
+            background-color: var(--btn-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .my-button.hidden {
+            display: none !important;
+        }
+
+        /* Right Column Info Cards */
+        .info-card {
+            background: rgba(0, 0, 0, 0.15);
+            padding: 1.2rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .info-card h2 {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.4rem;
+            margin-bottom: 0.8rem;
+        }
+
+        ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.4rem;
+        }
+
+        /* Centered Footer at bottom of container */
+        footer {
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.85;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            width: 100%;
+        }
+    </style>
+</head>
+<body data-theme="default">
+
+    <div class="container">
+        <!-- Theme Dropdown Switcher -->
+        <div class="theme-selector-wrapper redaction-50-regular">
+            <label for="theme-select" class="theme-label">Theme:</label>
+            <select id="theme-select" class="theme-select">
+                <option value="default">Original Blue/Green</option>
+                <option value="dark">Dark</option>
+                <option value="light">Light</option>
+                <option value="purple">Midnight Purple</option>
+                <option value="sunset">Sunset Neon</option>
+                <option value="forest">Emerald Forest</option>
+                <option value="ocean">Ocean Wave</option>
+                <option value="cyberpunk">Cyberpunk Matrix</option>
+            </select>
+        </div>
+
+        <header>
+            <h1 class="bitcount-grid-single-font">Hi! Welcome to my website.</h1>
+            <p class="subtitle redaction-50-regular">Here are some games you can play while at school.</p>
+        </header>
+
+        <div class="dashboard-layout">
+            <!-- Left Side: Games & Live Search -->
+            <div class="games-section">
+                <div class="section-header">
+                    <h2 class="bitcount-grid-single-font">Games Selection</h2>
+                    <span class="badge redaction-50-bold" id="game-count">12 Games</span>
+                </div>
+
+                <input type="text" id="search" class="search-box" placeholder="Search games...">
+
+                <div class="button-grid" id="game-grid">
+                    <a href="https://lccamabilis-pixel.github.io/ecosystems_around.the.world/" target="_blank" rel="noopener noreferrer" class="my-button">Tiny Fishing</a>
+                    <a href="https://lccamabilis-pixel.github.io/plant-animal-cells/" target="_blank" rel="noopener noreferrer" class="my-button">Banana Simulator</a>
+                    <a href="https://lccamabilis-pixel.github.io/geometyrash/" target="_blank" rel="noopener noreferrer" class="my-button">Geometry Dash (Scratch)</a>
+                    <a href="https://lccamabilis-pixel.github.io/beachdjieeojhgfdr/" target="_blank" rel="noopener noreferrer" class="my-button">Sandboxels</a>
+                    <a href="https://lccamabilis-pixel.github.io/birdsci-ence.real.educ/" target="_blank" rel="noopener noreferrer" class="my-button">Angry Birds 2</a>
+                    <a href="https://lccamabilis-pixel.github.io/verygoodhelperschool/" target="_blank" rel="noopener noreferrer" class="my-button">Drift Boss</a>
+                    <a href="https://lccamabilis-pixel.github.io/progress-_your.learn/" target="_blank" rel="noopener noreferrer" class="my-button">Cookie Clicker</a>
+                    <a href="https://lccamabilis-pixel.github.io/research-it-all-/" target="_blank" rel="noopener noreferrer" class="my-button">Minecraft</a>
+                    <a href="https://lccamabilis-pixel.github.io/bsketballrugnu/" target="_blank" rel="noopener noreferrer" class="my-button">Basket Bros</a>
+                    <a href="https://lccamabilis-pixel.github.io/educationalstuff/" target="_blank" rel="noopener noreferrer" class="my-button">Slope</a>
+                    <a href="https://lccamabilis-pixel.github.io/learnto-drivejunf/" target="_blank" rel="noopener noreferrer" class="my-button">Drive Mad</a>
+                    <a href="https://lccamabilis-pixel.github.io/rytyujiyok7gftdreesfrghje_education/" target="_blank" rel="noopener noreferrer" class="my-button">Rooftop Snipers</a>
+                </div>
+            </div>
+
+            <!-- Right Side: Suggestions & Report Errors, Changes, and Notes -->
+            <div class="sidebar-section">
+                <div class="info-card">
+                    <h2 class="bitcount-grid-single-font">Suggest and Report Errors</h2>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSd8NU8M8GR_jkaxRAgW-C2axLNEIzkiHIiUlssII85vbwkV1w/viewform" target="_blank" rel="noopener noreferrer" class="my-button">Open Google Form</a>
+                </div>
+
+                <div class="info-card redaction-50-regular">
+                    <h2 class="bitcount-grid-single-font">Changes</h2>
+                    <ul>
+                        <li><strong class="redaction-50-bold">10/17:</strong> Added Basket Bros</li>
+                        <li><strong class="redaction-50-bold">10/16:</strong> Added Drive Mad</li>
+                        <li><strong class="redaction-50-bold">10/15:</strong> Added Sandboxels and Geometry Dash</li>
+                    </ul>
+                </div>
+
+                <div class="info-card redaction-50-regular">
+                    <h2 class="bitcount-grid-single-font">Notes</h2>
+                    <ul>
+                        <li>Sandboxels can be a bit glitchy depending on the device.</li>
+                        <li>You might not be able to play Cookie Clicker and Banana Simulator if JavaScript is disabled.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Centered Bottom Credits -->
+        <footer class="redaction-50-regular-italic">
+            <p>Lucca A and Everett S</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('search');
+            const gameGrid = document.getElementById('game-grid');
+            const gameCount = document.getElementById('game-count');
+            const themeSelect = document.getElementById('theme-select');
+
+            // Theme switching logic
+            const savedTheme = localStorage.getItem('site-theme') || 'default';
+            document.body.setAttribute('data-theme', savedTheme);
+            themeSelect.value = savedTheme;
+
+            themeSelect.addEventListener('change', (e) => {
+                const selectedTheme = e.target.value;
+                document.body.setAttribute('data-theme', selectedTheme);
+                localStorage.setItem('site-theme', selectedTheme);
+            });
+
+            // Live search logic
+            searchInput.addEventListener('input', () => {
+                const query = searchInput.value.toLowerCase().trim();
+                const buttons = gameGrid.querySelectorAll('.my-button');
+                let visibleCount = 0;
+
+                buttons.forEach(button => {
+                    const text = button.textContent.toLowerCase();
+                    if (text.includes(query)) {
+                        button.classList.remove('hidden');
+                        visibleCount++;
+                    } else {
+                        button.classList.add('hidden');
+                    }
+                });
+
+                gameCount.textContent = `${visibleCount} Game${visibleCount === 1 ? '' : 's'}`;
+            });
+        });
+    </script>
+</body>
+</html>

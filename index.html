@@ -344,6 +344,19 @@
             display: none !important;
         }
 
+        .no-results {
+            display: none;
+            text-align: center;
+            padding: 1.5rem;
+            opacity: 0.8;
+            font-style: italic;
+            grid-column: 1 / -1;
+        }
+
+        .no-results.visible {
+            display: block;
+        }
+
         /* Right Column Info Cards */
         .info-card {
             background: rgba(0, 0, 0, 0.15);
@@ -408,24 +421,27 @@
             <div class="games-section">
                 <div class="section-header">
                     <h2 class="bitcount-grid-single-font">Games Selection</h2>
-                    <span class="badge redaction-50-bold" id="game-count">12 Games</span>
+                    <span class="badge redaction-50-bold" id="game-count">Loading...</span>
                 </div>
 
+                <label for="search" class="visually-hidden" style="display:none;">Search games</label>
                 <input type="text" id="search" class="search-box" placeholder="Search games...">
 
                 <div class="button-grid" id="game-grid">
-                    <a href="https://lccamabilis-pixel.github.io/ecosystems_around.the.world/" target="_blank" rel="noopener noreferrer" class="my-button">Tiny Fishing</a>
-                    <a href="https://lccamabilis-pixel.github.io/plant-animal-cells/" target="_blank" rel="noopener noreferrer" class="my-button">Banana Simulator</a>
-                    <a href="https://lccamabilis-pixel.github.io/geometyrash/" target="_blank" rel="noopener noreferrer" class="my-button">Geometry Dash (Scratch)</a>
-                    <a href="https://lccamabilis-pixel1.github.io/sandbox-scj/" target="_blank" rel="noopener noreferrer" class="my-button">Sandboxels</a>
-                    <a href="https://lccamabilis-pixel1.github.io/happybirds2/" target="_blank" rel="noopener noreferrer" class="my-button">Angry Birds 2</a>
-                    <a href="https://lccamabilis-pixel1.github.io/boss.of-drifting/" target="_blank" rel="noopener noreferrer" class="my-button">Drift Boss</a>
-                    <a href="https://lccamabilis-pixel.github.io/progress-_your.learn/" target="_blank" rel="noopener noreferrer" class="my-button">Cookie Clicker</a>
-                    <a href="https://lccamabilis-pixel1.github.io/my-craft/" target="_blank" rel="noopener noreferrer" class="my-button">Minecraft</a>
-                    <a href="https://lccamabilis-pixel.github.io/bsketballrugnu/" target="_blank" rel="noopener noreferrer" class="my-button">Basket Bros</a>
-                    <a href="https://lccamabilis-pixel1.github.io/find-the-slope/" target="_blank" rel="noopener noreferrer" class="my-button">Slope</a>
-                    <a href="https://lccamabilis-pixel1.github.io/maddriving-iskmfi/" target="_blank" rel="noopener noreferrer" class="my-button">Drive Mad</a>
-                    <a href="https://lccamabilis-pixel.github.io/rytyujiyok7gftdreesfrghje_education/" target="_blank" rel="noopener noreferrer" class="my-button">Rooftop Snipers</a>
+                    <a href="https://lccamabilis-pixel.github.io/ecosystems_around.the.world/" class="my-button">Tiny Fishing</a>
+                    <a href="https://lccamabilis-pixel.github.io/plant-animal-cells/" class="my-button">Banana Simulator</a>
+                    <a href="https://lccamabilis-pixel.github.io/geometyrash/" class="my-button">Geometry Dash (Scratch)</a>
+                    <a href="https://lccamabilis-pixel1.github.io/sandbox-scj/" class="my-button">Sandboxels</a>
+                    <a href="https://lccamabilis-pixel1.github.io/happybirds2/" class="my-button">Angry Birds 2</a>
+                    <a href="https://lccamabilis-pixel1.github.io/boss.of-drifting/" class="my-button">Drift Boss</a>
+                    <a href="https://lccamabilis-pixel.github.io/progress-_your.learn/" class="my-button">Cookie Clicker</a>
+                    <a href="https://lccamabilis-pixel1.github.io/my-craft/" class="my-button">Minecraft</a>
+                    <a href="https://lccamabilis-pixel.github.io/bsketballrugnu/" class="my-button">Basket Bros</a>
+                    <a href="https://lccamabilis-pixel1.github.io/find-the-slope/" class="my-button">Slope</a>
+                    <a href="https://lccamabilis-pixel1.github.io/maddriving-iskmfi/" class="my-button">Drive Mad</a>
+                    <a href="https://lccamabilis-pixel.github.io/rytyujiyok7gftdreesfrghje_education/" class="my-button">Rooftop Snipers</a>
+                    
+                    <p id="no-results" class="no-results redaction-50-regular">No matching games found.</p>
                 </div>
             </div>
 
@@ -433,7 +449,7 @@
             <div class="sidebar-section">
                 <div class="info-card">
                     <h2 class="bitcount-grid-single-font">Suggest and Report Errors</h2>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSd8NU8M8GR_jkaxRAgW-C2axLNEIzkiHIiUlssII85vbwkV1w/viewform" target="_blank" rel="noopener noreferrer" class="my-button">Open Google Form</a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSd8NU8M8GR_jkaxRAgW-C2axLNEIzkiHIiUlssII85vbwkV1w/viewform" class="my-button">Open Google Form</a>
                 </div>
 
                 <div class="info-card redaction-50-regular">
@@ -449,7 +465,7 @@
                 <div class="info-card redaction-50-regular">
                     <h2 class="bitcount-grid-single-font">Notes</h2>
                     <ul>
-                        <li>Please note because of us transfering to a new website some games won't be avalible! I added as much as i can for the time being.</li>
+                        <li>Please note that due to transferring to a new website, some games may not be available yet! I added as many as possible for now.</li>
                         <li>Sandboxels can be a bit glitchy depending on the device.</li>
                         <li>You might not be able to play Cookie Clicker and Banana Simulator if JavaScript is disabled.</li>
                     </ul>
@@ -469,6 +485,15 @@
             const gameGrid = document.getElementById('game-grid');
             const gameCount = document.getElementById('game-count');
             const themeSelect = document.getElementById('theme-select');
+            const noResultsMsg = document.getElementById('no-results');
+            const buttons = gameGrid.querySelectorAll('.my-button');
+
+            // Initialize dynamic game count on load
+            const updateGameCount = (count) => {
+                gameCount.textContent = `${count} Game${count === 1 ? '' : 's'}`;
+            };
+            
+            updateGameCount(buttons.length);
 
             // Theme switching logic
             const savedTheme = localStorage.getItem('site-theme') || 'default';
@@ -484,7 +509,6 @@
             // Live search logic
             searchInput.addEventListener('input', () => {
                 const query = searchInput.value.toLowerCase().trim();
-                const buttons = gameGrid.querySelectorAll('.my-button');
                 let visibleCount = 0;
 
                 buttons.forEach(button => {
@@ -497,7 +521,13 @@
                     }
                 });
 
-                gameCount.textContent = `${visibleCount} Game${visibleCount === 1 ? '' : 's'}`;
+                if (visibleCount === 0) {
+                    noResultsMsg.classList.add('visible');
+                } else {
+                    noResultsMsg.classList.remove('visible');
+                }
+
+                updateGameCount(visibleCount);
             });
         });
     </script>

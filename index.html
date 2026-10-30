@@ -331,6 +331,8 @@
             border-radius: 8px;
             font-family: var(--main-font);
             font-weight: 500;
+            cursor: pointer;
+            border: none;
             transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
         }
 
@@ -379,6 +381,53 @@
 
         li {
             margin-bottom: 0.4rem;
+        }
+
+        /* Embedded Browser Frame Styles */
+        .browser-container {
+            margin-top: 2rem;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .browser-toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .browser-input {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--text-color);
+            font-family: var(--main-font);
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .browser-input:focus {
+            border-color: var(--text-color);
+            box-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        .browser-frame-wrapper {
+            width: 100%;
+            height: 500px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+        }
+
+        .browser-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         /* Centered Footer at bottom of container */
@@ -473,6 +522,21 @@
             </div>
         </div>
 
+        <!-- Embedded Browser Section -->
+        <div class="browser-container">
+            <div class="section-header">
+                <h2 class="bitcount-grid-single-font">In-Page Browser</h2>
+                <span class="badge redaction-50-bold">Embedded Viewer</span>
+            </div>
+            <div class="browser-toolbar">
+                <input type="text" id="browser-url-input" class="browser-input" placeholder="Enter URL or select a game above..." value="https://lccamabilis-pixel.github.io/ecosystems_around.the.world/">
+                <button id="browser-go-btn" class="my-button" style="padding: 10px 20px;">Load</button>
+            </div>
+            <div class="browser-frame-wrapper">
+                <iframe id="embedded-browser" class="browser-frame" src="https://lccamabilis-pixel.github.io/ecosystems_around.the.world/" title="Embedded Browser"></iframe>
+            </div>
+        </div>
+
         <!-- Centered Bottom Credits -->
         <footer class="redaction-50-regular-italic">
             <p>Lucca A and Everett S</p>
@@ -486,14 +550,18 @@
             const gameCount = document.getElementById('game-count');
             const themeSelect = document.getElementById('theme-select');
             const noResultsMsg = document.getElementById('no-results');
-            const buttons = gameGrid.querySelectorAll('.my-button');
+            const gameButtons = gameGrid.querySelectorAll('.my-button');
+
+            const urlInput = document.getElementById('browser-url-input');
+            const goBtn = document.getElementById('browser-go-btn');
+            const iframe = document.getElementById('embedded-browser');
 
             // Initialize dynamic game count on load
             const updateGameCount = (count) => {
                 gameCount.textContent = `${count} Game${count === 1 ? '' : 's'}`;
             };
             
-            updateGameCount(buttons.length);
+            updateGameCount(gameButtons.length);
 
             // Theme switching logic
             const savedTheme = localStorage.getItem('site-theme') || 'default';
@@ -506,12 +574,12 @@
                 localStorage.setItem('site-theme', selectedTheme);
             });
 
-            // Live search logic
+            // Live search logic for games
             searchInput.addEventListener('input', () => {
                 const query = searchInput.value.toLowerCase().trim();
                 let visibleCount = 0;
 
-                buttons.forEach(button => {
+                gameButtons.forEach(button => {
                     const text = button.textContent.toLowerCase();
                     if (text.includes(query)) {
                         button.classList.remove('hidden');
@@ -528,6 +596,34 @@
                 }
 
                 updateGameCount(visibleCount);
+            });
+
+            // Embedded Browser Loading Logic
+            const loadUrl = (url) => {
+                if (url) {
+                    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                        url = 'https://' + url;
+                    }
+                    urlInput.value = url;
+                    iframe.src = url;
+                }
+            };
+
+            // Intercept clicks on game buttons to open in embedded viewer directly
+            gameButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetUrl = button.getAttribute('href');
+                    loadUrl(targetUrl);
+                    document.querySelector('.browser-container').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            goBtn.addEventListener('click', () => loadUrl(urlInput.value.trim()));
+            urlInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    loadUrl(urlInput.value.trim());
+                }
             });
         });
     </script>

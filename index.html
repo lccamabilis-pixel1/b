@@ -339,6 +339,8 @@
             color: white;
             text-align: center;
             text-decoration: none;
+            border: none;
+            cursor: pointer;
             border-radius: 8px;
             font-family: var(--main-font);
             font-weight: 500;
@@ -402,6 +404,77 @@
             border-top: 1px solid var(--border-color);
             width: 100%;
         }
+
+        /* Modal Overlay for Embedded Games */
+        .game-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 9999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+        }
+
+        .game-modal.active {
+            display: flex;
+        }
+
+        .modal-bar {
+            width: 90%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            color: #fff;
+        }
+
+        .modal-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .modal-btn {
+            padding: 8px 16px;
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: var(--main-font);
+            transition: background 0.2s;
+        }
+
+        .modal-btn:hover {
+            background: #dc2626;
+        }
+
+        .modal-btn.fullscreen-btn {
+            background: #3b82f6;
+        }
+
+        .modal-btn.fullscreen-btn:hover {
+            background: #2563eb;
+        }
+
+        .game-frame {
+            width: 90%;
+            height: 85vh;
+            max-width: 1200px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            background: #000;
+        }
     </style>
 </head>
 <body data-theme="default">
@@ -445,18 +518,18 @@
                 <input type="text" id="search" class="search-box" placeholder="Search games...">
 
                 <div class="button-grid" id="game-grid">
-                    <a href="https://lccamabilis-pixel1.github.io/fishing.tinyfish/" class="my-button">Tiny Fishing</a>
-                    <a href="https://lccamabilis-pixel.github.io/plant-animal-cells/" class="my-button">Banana Simulator</a>
-                    <a href="https://lccamabilis-pixel1.github.io/geometryfornoobs/" class="my-button">Geometry Dash (Scratch)</a>
-                    <a href="https://lccamabilis-pixel1.github.io/sandbox-scj/" class="my-button">Sandboxels</a>
-                    <a href="https://lccamabilis-pixel1.github.io/happybirds2/" class="my-button">Angry Birds 2</a>
-                    <a href="https://lccamabilis-pixel1.github.io/boss.of-drifting/" class="my-button">Drift Boss</a>
-                    <a href="https://lccamabilis-pixel.github.io/progress-_your.learn/" class="my-button">Cookie Clicker</a>
-                    <a href="https://lccamabilis-pixel1.github.io/my-craft/" class="my-button">Minecraft</a>
-                    <a href="https://lccamabilis-pixel1.github.io/bro-basketball/" class="my-button">Basket Bros</a>
-                    <a href="https://lccamabilis-pixel1.github.io/find-the-slope/" class="my-button">Slope</a>
-                    <a href="https://lccamabilis-pixel1.github.io/maddriving-iskmfi/" class="my-button">Drive Mad</a>
-                    <a href="https://lccamabilis-pixel.github.io/rytyujiyok7gftdreesfrghje_education/" class="my-button">Rooftop Snipers</a>
+                    <button data-url="https://lccamabilis-pixel1.github.io/fishing.tinyfish/" class="my-button game-btn">Tiny Fishing</button>
+                    <button data-url="https://lccamabilis-pixel.github.io/plant-animal-cells/" class="my-button game-btn">Banana Simulator</button>
+                    <button data-url="https://lccamabilis-pixel1.github.io/geometryfornoobs/" class="my-button game-btn">Geometry Dash (Scratch)</button>
+                    <button data-url="https://lccamabilis-pixel1.github.io/sandbox-scj/" class="my-button game-btn">Sandboxels</button>
+                    <button data-url="https://lccamabilis-pixel1.github.io/happybirds2/" class="my-button game-btn">Angry Birds 2</button>
+                    <button data-url="https://lccamabilis-pixel1.github.io/boss.of-drifting/" class="my-button game-btn">Drift Boss</button>
+                    <button data-url="https://lccamabilis-pixel.github.io/progress-_your.learn/" class="my-button game-btn">Cookie Clicker</button>
+                    <button data-url="https://lccamabilis-pixel1.github.io/my-craft/" class="my-button game-btn">Minecraft</button>
+                    <button data-url="https://lccamabilis-pixel1.github.io/bro-basketball/" class="my-button game-btn">Basket Bros</button>
+                    <button data-url="https://lccamabilis-pixel1.github.io/find-the-slope/" class="my-button game-btn">Slope</button>
+                    <button data-url="https://lccamabilis-pixel1.github.io/maddriving-iskmfi/" class="my-button game-btn">Drive Mad</button>
+                    <button data-url="https://lccamabilis-pixel.github.io/rytyujiyok7gftdreesfrghje_education/" class="my-button game-btn">Rooftop Snipers</button>
                     
                     <p id="no-results" class="no-results redaction-50-regular">No matching games found.</p>
                 </div>
@@ -466,14 +539,14 @@
             <div class="sidebar-section">
                 <div class="info-card">
                     <h2 class="bitcount-grid-single-font">Suggest and Report Errors</h2>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSd8NU8M8GR_jkaxRAgW-C2axLNEIzkiHIiUlssII85vbwkV1w/viewform" class="my-button">Open Google Form</a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSd8NU8M8GR_jkaxRAgW-C2axLNEIzkiHIiUlssII85vbwkV1w/viewform" target="_blank" class="my-button">Open Google Form</a>
                 </div>
 
                 <div class="info-card redaction-50-regular">
                     <h2 class="bitcount-grid-single-font">Changes</h2>
                     <ul>
-                           <li><strong class="redaction-50-bold">10/30:</strong> Made a Panic Key!</li>  
-                      <li><strong class="redaction-50-bold">10/29:</strong> Moved to a new website!</li>
+                        <li><strong class="redaction-50-bold">10/30:</strong> Made a Panic Key!</li>  
+                        <li><strong class="redaction-50-bold">10/29:</strong> Moved to a new website!</li>
                         <li><strong class="redaction-50-bold">10/17:</strong> Added Basket Bros</li>
                         <li><strong class="redaction-50-bold">10/16:</strong> Added Drive Mad</li>
                         <li><strong class="redaction-50-bold">10/15:</strong> Added Sandboxels and Geometry Dash</li>
@@ -498,6 +571,18 @@
         </footer>
     </div>
 
+    <!-- Embedded Game Container Modal -->
+    <div id="game-modal" class="game-modal">
+        <div class="modal-bar">
+            <span id="modal-title" class="modal-title bitcount-grid-single-font">Game Title</span>
+            <div class="modal-controls">
+                <button id="fullscreen-btn" class="modal-btn fullscreen-btn">Fullscreen</button>
+                <button id="close-modal" class="modal-btn">Close Game</button>
+            </div>
+        </div>
+        <iframe id="game-frame" class="game-frame" src="" frameborder="0" allow="fullscreen" allowfullscreen></iframe>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const searchInput = document.getElementById('search');
@@ -506,14 +591,51 @@
             const themeSelect = document.getElementById('theme-select');
             const panicKeyInput = document.getElementById('panic-key-input');
             const noResultsMsg = document.getElementById('no-results');
-            const buttons = gameGrid.querySelectorAll('.my-button');
+            const gameButtons = gameGrid.querySelectorAll('.game-btn');
+            
+            const gameModal = document.getElementById('game-modal');
+            const gameFrame = document.getElementById('game-frame');
+            const modalTitle = document.getElementById('modal-title');
+            const closeModal = document.getElementById('close-modal');
+            const fullscreenBtn = document.getElementById('fullscreen-btn');
 
             // Initialize dynamic game count on load
             const updateGameCount = (count) => {
                 gameCount.textContent = `${count} Game${count === 1 ? '' : 's'}`;
             };
             
-            updateGameCount(buttons.length);
+            updateGameCount(gameButtons.length);
+
+            // Open embedded game inside the frame
+            gameButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const url = button.getAttribute('data-url');
+                    const title = button.textContent;
+                    
+                    gameFrame.src = url;
+                    modalTitle.textContent = title;
+                    gameModal.classList.add('active');
+                });
+            });
+
+            // Close iframe modal
+            const closeGame = () => {
+                gameModal.classList.remove('active');
+                gameFrame.src = '';
+            };
+
+            closeModal.addEventListener('click', closeGame);
+
+            // Fullscreen toggle logic
+            fullscreenBtn.addEventListener('click', () => {
+                if (gameFrame.requestFullscreen) {
+                    gameFrame.requestFullscreen();
+                } else if (gameFrame.webkitRequestFullscreen) {
+                    gameFrame.webkitRequestFullscreen();
+                } else if (gameFrame.msRequestFullscreen) {
+                    gameFrame.msRequestFullscreen();
+                }
+            });
 
             // Theme switching logic
             const savedTheme = localStorage.getItem('site-theme') || 'default';
@@ -533,7 +655,6 @@
             panicKeyInput.addEventListener('input', () => {
                 const val = panicKeyInput.value;
                 if (val.length > 0) {
-                    // Take the last typed character or full string (useful for special keys like "Escape")
                     savedPanicKey = val;
                     localStorage.setItem('site-panic-key', savedPanicKey);
                 }
@@ -544,7 +665,7 @@
                 const query = searchInput.value.toLowerCase().trim();
                 let visibleCount = 0;
 
-                buttons.forEach(button => {
+                gameButtons.forEach(button => {
                     const text = button.textContent.toLowerCase();
                     if (text.includes(query)) {
                         button.classList.remove('hidden');
@@ -565,10 +686,10 @@
 
             // Panic Key Trigger Logic
             document.addEventListener('keydown', (e) => {
-                // Ignore if the user is typing inside an input box (like search or panic key input)
                 if (document.activeElement.tagName === 'INPUT') return;
 
                 if (e.key === savedPanicKey || e.code === savedPanicKey) {
+                    closeGame();
                     window.location.replace('https://www.google.com');
                 }
             });

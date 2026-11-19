@@ -339,8 +339,11 @@
             color: white;
             text-align: center;
             text-decoration: none;
+            border: none;
+            cursor: pointer;
             border-radius: 8px;
             font-family: var(--main-font);
+            font-size: 1rem;
             font-weight: 500;
             transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
         }
@@ -402,9 +405,100 @@
             border-top: 1px solid var(--border-color);
             width: 100%;
         }
+
+        /* =========================================
+           ANNOUNCEMENT POPUP MODAL STYLES
+           ========================================= */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 1rem;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .modal-box {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 20px var(--accent-glow);
+            border-radius: 16px;
+            padding: 2.2rem;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+            color: var(--text-color);
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.hidden .modal-box {
+            transform: scale(0.92);
+        }
+
+        .modal-box h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .modal-box p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin-bottom: 1.6rem;
+            opacity: 0.95;
+        }
+
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .btn-secondary {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
     </style>
 </head>
 <body data-theme="default">
+
+    <!-- Site Migration Announcement Modal -->
+    <div id="migration-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-box">
+            <h2 id="modal-title" class="bitcount-grid-single-font">We've Moved! </h2>
+            <p class="redaction-50-regular">
+                Hey! I've moved to a <strong>better, improved website</strong> with <strong>way more games</strong>. There is about 350+ games. So this should fit ya'lls needs. This website will likely be no longer maintained. I will also not be adding any more games to both this and the newer websites. Click the button below to visit the new site! 
+            </p>
+            <div class="modal-actions">
+                <!-- REPLACE '#' WITH YOUR NEW WEBSITE URL BELOW -->
+                <a href="https://lccamabilis-pixel1.github.io/testno2/" target="_blank" rel="noopener noreferrer" class="my-button" id="visit-new-site-btn">
+                    Visit New Website
+                </a>
+                <button type="button" id="close-modal-btn" class="my-button btn-secondary">
+                    Stay on Old Site (boring)
+                </button>
+            </div>
+        </div>
+    </div>
 
     <div class="container">
         <!-- Top Controls: Theme & Panic Key Switcher -->
@@ -490,7 +584,7 @@
                         <li><strong class="redaction-50-bold">11/05:</strong> Added Google Snake Remake</li> 
                         <li><strong class="redaction-50-bold">11/03:</strong> Added Knockoff fortnine and Bloons TD</li>     
                         <li><strong class="redaction-50-bold">10/30:</strong> Made a Panic Key!</li> 
-                      <li><strong class="redaction-50-bold">10/29:</strong> Moved to a new website!</li>
+                        <li><strong class="redaction-50-bold">10/29:</strong> Moved to a new website!</li>
                     </ul>
                 </div>
 
@@ -505,6 +599,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -515,6 +610,22 @@
             const panicKeyInput = document.getElementById('panic-key-input');
             const noResultsMsg = document.getElementById('no-results');
             const buttons = gameGrid.querySelectorAll('.my-button');
+
+            // Modal Elements
+            const migrationModal = document.getElementById('migration-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+
+            // Close modal when clicking "Stay on Old Site"
+            closeModalBtn.addEventListener('click', () => {
+                migrationModal.classList.add('hidden');
+            });
+
+            // Also allow closing modal by clicking outside the modal box
+            migrationModal.addEventListener('click', (e) => {
+                if (e.target === migrationModal) {
+                    migrationModal.classList.add('hidden');
+                }
+            });
 
             // Initialize dynamic game count on load
             const updateGameCount = (count) => {
@@ -541,7 +652,6 @@
             panicKeyInput.addEventListener('input', () => {
                 const val = panicKeyInput.value;
                 if (val.length > 0) {
-                    // Take the last typed character or full string (useful for special keys like "Escape")
                     savedPanicKey = val;
                     localStorage.setItem('site-panic-key', savedPanicKey);
                 }
@@ -571,9 +681,8 @@
                 updateGameCount(visibleCount);
             });
 
-            // Panic Key Trigger Logic
+            // Panic Key Trigger Logic (still works even if modal is open!)
             document.addEventListener('keydown', (e) => {
-                // Ignore if the user is typing inside an input box (like search or panic key input)
                 if (document.activeElement.tagName === 'INPUT') return;
 
                 if (e.key === savedPanicKey || e.code === savedPanicKey) {
